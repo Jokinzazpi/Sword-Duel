@@ -38,16 +38,16 @@ public class PlayerBehaviour : MonoBehaviour
         {
             other_player = GameObject.Find("Player2").GetComponent<PlayerBehaviour>();
             my_sword = GameObject.Find("Sword1").GetComponent<SwordMovement>();
-            original_pos = my_sword.transform.position;
-            original_rot = my_sword.transform.rotation;
+            original_pos = my_sword.transform.localPosition;
+            original_rot = my_sword.transform.localRotation;
             my_sword.my_weilder = this;
         }
         else if (player_number == 2)
         {
             other_player = GameObject.Find("Player1").GetComponent<PlayerBehaviour>();
             my_sword = GameObject.Find("Sword2").GetComponent<SwordMovement>();
-            original_pos = my_sword.transform.position;
-            original_rot = my_sword.transform.rotation;
+            original_pos = my_sword.transform.localPosition;
+            original_rot = my_sword.transform.localRotation;
             my_sword.my_weilder = this;
         }
     }
@@ -71,22 +71,32 @@ public class PlayerBehaviour : MonoBehaviour
                 return;
             }
 
-            preparation_counter = 0f;
-            attack_counter = 0f;
+            
+            //check if the direction was the same
+            //if it is is blocked so turn change
             if(other_player.last_attack_direction == last_attack_direction)
             {
                 turn = !turn;
                 other_player.turn = !other_player.turn;
                 player_center.rotating = true;
+                //reset the sword positions and rotation
+                my_sword.transform.localPosition = original_pos;
+                my_sword.transform.localRotation = original_rot;
+                other_player.my_sword.transform.localPosition = other_player.original_pos;
+                other_player.my_sword.transform.localRotation = other_player.original_rot;
             }
             else
             {
                 hit_anim = true;
                 other_player.hit_anim = true;
 
+                
                 player_center.focus.transform.position = player_center.focus.transform.position + Vector3.Scale(player_center.focus.transform.right, new Vector3(distance_hit_back, distance_hit_back, distance_hit_back));
                 
             }
+
+            preparation_counter = 0f;
+            attack_counter = 0f;
             attacking = false;
             return;
         }
@@ -103,7 +113,6 @@ public class PlayerBehaviour : MonoBehaviour
             my_sword.transform.localPosition = original_pos;
             my_sword.transform.localRotation = original_rot;
             hit_counter = 0;
-
             return;
         }
 
