@@ -31,6 +31,9 @@ public class PlayerBehaviour : MonoBehaviour
     camera_movement player_center;
 
     int last_attack_direction = 0;
+
+    //JokinVars
+    float distance_moved = 0;
     void Start()
     {
         player_center = GameObject.Find("Main Camera").GetComponent<camera_movement>();
@@ -84,7 +87,7 @@ public class PlayerBehaviour : MonoBehaviour
                 hit_anim = true;
                 other_player.hit_anim = true;
 
-                player_center.focus.transform.position = player_center.focus.transform.position + Vector3.Scale(player_center.focus.transform.right, new Vector3(distance_hit_back, distance_hit_back, distance_hit_back));
+               
                 
             }
             attacking = false;
@@ -95,7 +98,26 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (hit_counter < hit_time)
             {
+                float value = Mathf.SmoothStep(0f, distance_hit_back, hit_counter / hit_time);
                 hit_counter += Time.deltaTime;
+
+                if (!turn)
+                  return;
+
+                float distance_step = value - distance_moved;
+            
+                Vector3 direction_v = new Vector3();
+
+                if (player_number == 2)
+                {
+                  direction_v.x = 1;
+                }
+                else
+                  direction_v.x = -1;
+
+                player_center.focus.transform.position = player_center.focus.transform.position + direction_v;
+                distance_moved += distance_step;
+
                 return;
             }
 
@@ -103,7 +125,7 @@ public class PlayerBehaviour : MonoBehaviour
             my_sword.transform.localPosition = original_pos;
             my_sword.transform.localRotation = original_rot;
             hit_counter = 0;
-
+            distance_moved = 0;
             return;
         }
 

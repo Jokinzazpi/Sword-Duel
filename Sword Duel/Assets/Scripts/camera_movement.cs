@@ -55,8 +55,11 @@ public class camera_movement : MonoBehaviour
       transform.RotateAround(focus.transform.position, new Vector3(0, 1, 0), -temp_step);
 
       if (current_rotation >= 180)
+      {
         rotating = false;
-
+        current_rotation = 0;
+        current_time = 0;
+      }
 
       current_rotation += temp_step;
       current_time += Time.deltaTime;
