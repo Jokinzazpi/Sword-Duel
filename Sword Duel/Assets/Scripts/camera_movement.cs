@@ -9,8 +9,9 @@ public class camera_movement : MonoBehaviour
   public float time;
   public int lerp_effect_scale;
   public bool menu_mode;
-
-  bool rotating = false;
+  
+    [HideInInspector]
+  public bool rotating = false;
   float current_rotation = 0;
   float current_time = 0;
 
