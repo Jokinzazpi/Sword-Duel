@@ -8,6 +8,7 @@ public class camera_movement : MonoBehaviour
   public float offset;
   public float time;
   public int lerp_effect_scale;
+  public bool menu_mode;
 
   bool rotating = false;
   float current_rotation = 0;
@@ -22,6 +23,14 @@ public class camera_movement : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    if (menu_mode)
+    {
+
+      transform.RotateAround(focus.transform.position, new Vector3(0, 1, 0), -offset);
+      transform.LookAt(focus.transform);
+      return;
+    }
+
     float step = 180 * 0.016f / time;
 
     if (!rotating)
