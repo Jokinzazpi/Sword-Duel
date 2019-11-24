@@ -107,7 +107,26 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (hit_counter < hit_time)
             {
+                float value = Mathf.SmoothStep(0f, distance_hit_back, hit_counter / hit_time);
                 hit_counter += Time.deltaTime;
+
+                if (!turn)
+                  return;
+
+                float distance_step = value - distance_moved;
+            
+                Vector3 direction_v = new Vector3();
+
+                if (player_number == 2)
+                {
+                  direction_v.x = 1;
+                }
+                else
+                  direction_v.x = -1;
+
+                player_center.focus.transform.position = player_center.focus.transform.position + direction_v;
+                distance_moved += distance_step;
+
                 return;
             }
 
@@ -115,6 +134,7 @@ public class PlayerBehaviour : MonoBehaviour
             my_sword.transform.localPosition = original_pos;
             my_sword.transform.localRotation = original_rot;
             hit_counter = 0;
+            distance_moved = 0;
             return;
         }
 
@@ -158,7 +178,6 @@ public class PlayerBehaviour : MonoBehaviour
 
             return;
         }
-        //else defends
         if (other_player.attacking 
             && other_player.preparation_counter < other_player.preparation_time 
             && direction != -1)
@@ -166,5 +185,6 @@ public class PlayerBehaviour : MonoBehaviour
             my_sword.MoveBlockSword(direction);
             last_attack_direction = direction;
         }
+        //else defends
     }
 }

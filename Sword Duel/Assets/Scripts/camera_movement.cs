@@ -56,11 +56,10 @@ public class camera_movement : MonoBehaviour
 
       if (current_rotation >= 180)
       {
-          current_rotation = 0;
-          current_time = 0;
-          rotating = false;   
+        rotating = false;
+        current_rotation = 0;
+        current_time = 0;
       }
-
 
       current_rotation += temp_step;
       current_time += Time.deltaTime;
