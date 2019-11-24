@@ -31,15 +31,23 @@ public class PlayerBehaviour : MonoBehaviour
 
     int last_attack_direction = 0;
     void Start()
-    {
-        original_pos = transform.GetChild(0).transform.position;
-        original_rot = transform.GetChild(0).transform.rotation;
-
-        my_sword = transform.GetChild(0).GetComponent<SwordMovement>();
+    {       
         if(player_number == 1)
+        {
             other_player = GameObject.Find("Player2").GetComponent<PlayerBehaviour>();
+            my_sword = GameObject.Find("Sword1").GetComponent<SwordMovement>();
+            original_pos = my_sword.transform.position;
+            original_rot = my_sword.transform.rotation;
+            my_sword.my_weilder = this;
+        }
         else if (player_number == 2)
+        {
             other_player = GameObject.Find("Player1").GetComponent<PlayerBehaviour>();
+            my_sword = GameObject.Find("Sword2").GetComponent<SwordMovement>();
+            original_pos = my_sword.transform.position;
+            original_rot = my_sword.transform.rotation;
+            my_sword.my_weilder = this;
+        }
     }
 
     public void OnCollisionEnter(Collision collision)
