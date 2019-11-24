@@ -31,6 +31,9 @@ public class PlayerBehaviour : MonoBehaviour
     camera_movement player_center;
 
     int last_attack_direction = 0;
+
+    //JokinVars
+    float distance_moved = 0f;
     void Start()
     {
         player_center = GameObject.Find("Main Camera").GetComponent<camera_movement>();
