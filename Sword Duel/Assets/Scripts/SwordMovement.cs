@@ -13,14 +13,14 @@ public class SwordMovement : MonoBehaviour
     public Vector3 leftblock = new Vector3(-0.722f, 0.089f, -0.6f);
     public Vector3 rightblock = new Vector3(-0.722f, 0.089f, 0.6f);
 
-    public Quaternion upblockrot = new Quaternion(0,90,0, 0);
-    public Quaternion leftblockrot=new Quaternion(0,0,90, 0);
+    public Vector3 upblockrot = new Vector3(0,90,0);
+    public Vector3 leftblockrot=new Vector3(0,0,90);
 
 
-    public Quaternion upattackrot = new Quaternion(0, 90, 30, 0);
-    public Quaternion leftattackrot = new Quaternion(30, 0, 90, 0);
-    public Quaternion downattackrot = new Quaternion(0, 90, -30, 0);
-    public Quaternion rightattackrot = new Quaternion(-30, 0, 90, 0);
+    public Vector3 upattackrot = new Vector3(0, 90, 30);
+    public Vector3 leftattackrot = new Vector3(30, 0, 90);
+    public Vector3 downattackrot = new Vector3(0, 90, -30);
+    public Vector3 rightattackrot = new Vector3(-30, 0, 90);
     void Start()
     {
     }
@@ -32,45 +32,45 @@ public class SwordMovement : MonoBehaviour
             if (direction == 0)
             {
                 transform.localPosition = upblock + new Vector3(0,0.1f,0);
-                transform.localRotation = upattackrot;
+                transform.localRotation = Quaternion.Euler(upattackrot);
                 Debug.Log("Upattack");
             }
             else if (direction == 1)
             {
                 transform.localPosition = downblock + new Vector3(0, -0.1f, 0);
-                transform.localRotation = downattackrot;
+                transform.localRotation = Quaternion.Euler(downattackrot);
             }
             else if (direction == 3)
             {
                 transform.localPosition = leftblock + new Vector3(-0.1f, 0, 0);
-                transform.localRotation = leftattackrot;
+                transform.localRotation = Quaternion.Euler(leftattackrot);
             }
             else if (direction == 4)
             {
                 transform.localPosition = rightblock + new Vector3(0.1f,0, 0);
-                transform.localRotation = rightattackrot;
+                transform.localRotation = Quaternion.Euler(rightattackrot);
             }
         }
    
         if (direction == 0)
         {
             transform.localPosition = upblock;
-            transform.localRotation = upattackrot;
+            transform.localRotation = Quaternion.Euler(upattackrot);
         }
         else if (direction == 1)
         {
             transform.localPosition = downblock;
-            transform.localRotation = downattackrot;
+            transform.localRotation = Quaternion.Euler(downattackrot);
         }
         else if (direction == 3)
         {
             transform.localPosition = leftblock;
-            transform.localRotation = leftattackrot;
+            transform.localRotation = Quaternion.Euler(leftattackrot);
         }
         else if (direction == 4)
         {
             transform.localPosition = rightblock;
-            transform.localRotation = rightattackrot;
+            transform.localRotation = Quaternion.Euler(rightattackrot);
         }
     }
 
@@ -79,23 +79,23 @@ public class SwordMovement : MonoBehaviour
         if(direction == 0)
         {
             transform.localPosition = upblock;
-            transform.localRotation = upblockrot;
+            transform.localRotation = Quaternion.Euler(upblockrot);
             Debug.Log("Upblock");
         }
         else if (direction == 1)
         {
             transform.localPosition = downblock;
-            transform.localRotation = upblockrot;
+            transform.localRotation = Quaternion.Euler(upblockrot);
         }
         else if (direction == 3)
         {
             transform.localPosition = leftblock;
-            transform.localRotation = leftblockrot;
+            transform.localRotation = Quaternion.Euler(leftblockrot);
         }
         else if (direction == 4)
         {
             transform.localPosition = rightblock;
-            transform.localRotation = leftblockrot;
+            transform.localRotation = Quaternion.Euler(leftblockrot);
         }
     }
     // Update is called once per frame

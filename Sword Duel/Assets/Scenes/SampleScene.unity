@@ -121,9 +121,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 115950654}
-  - component: {fileID: 115950653}
-  - component: {fileID: 115950652}
-  - component: {fileID: 115950651}
   - component: {fileID: 115950655}
   m_Layer: 0
   m_Name: Center of players
@@ -132,64 +129,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &115950651
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 115950650}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &115950652
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 115950650}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &115950653
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 115950650}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &115950654
 Transform:
   m_ObjectHideFlags: 0
@@ -331,12 +270,12 @@ MonoBehaviour:
   downblock: {x: -0.4, y: 0, z: 0}
   leftblock: {x: -0.4, y: 0.65, z: -0.67}
   rightblock: {x: -0.4, y: 0.65, z: -0.67}
-  upblockrot: {x: 0, y: 90, z: 0, w: 0}
-  leftblockrot: {x: 0, y: 0, z: 90, w: 0}
-  upattackrot: {x: 0, y: 90, z: 30, w: 0}
-  leftattackrot: {x: 30, y: 0, z: 90, w: 0}
-  downattackrot: {x: 0, y: 90, z: -30, w: 0}
-  rightattackrot: {x: -30, y: 0, z: 90, w: 0}
+  upblockrot: {x: 0, y: 90, z: 0}
+  leftblockrot: {x: 0, y: 0, z: 90}
+  upattackrot: {x: 0, y: 90, z: 30}
+  leftattackrot: {x: 30, y: 0, z: 90}
+  downattackrot: {x: 0, y: 90, z: -30}
+  rightattackrot: {x: -30, y: 0, z: 90}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,6 +445,7 @@ MonoBehaviour:
   time: 1
   lerp_effect_scale: 3
   menu_mode: 0
+  rotating: 0
 --- !u!1 &1018863004
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,7 +550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bbbc6c7cc7a08d4084080d48a9b9382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turn: 1
+  turn: 0
   player_number: 1
   distance_hit_back: 5
   hit_time: 0.1
@@ -728,12 +668,12 @@ MonoBehaviour:
   downblock: {x: 0.45, y: 0, z: 0}
   leftblock: {x: 0.45, y: 0.65, z: -0.67}
   rightblock: {x: 0.45, y: 0.65, z: 0.67}
-  upblockrot: {x: 0, y: 90, z: 0, w: 0}
-  leftblockrot: {x: 0, y: 0, z: 90, w: 0}
-  upattackrot: {x: 0, y: 90, z: 30, w: 0}
-  leftattackrot: {x: 30, y: 0, z: 90, w: 0}
-  downattackrot: {x: 0, y: 90, z: -30, w: 0}
-  rightattackrot: {x: -30, y: 0, z: 90, w: 0}
+  upblockrot: {x: 0, y: 90, z: 0}
+  leftblockrot: {x: 0, y: 0, z: 90}
+  upattackrot: {x: 0, y: 90, z: 30}
+  leftattackrot: {x: 30, y: 0, z: 90}
+  downattackrot: {x: 0, y: 90, z: -30}
+  rightattackrot: {x: -30, y: 0, z: 90}
 --- !u!1 &1441991636
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,7 +869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bbbc6c7cc7a08d4084080d48a9b9382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turn: 0
+  turn: 1
   player_number: 2
   distance_hit_back: 5
   hit_time: 0.1

@@ -89,8 +89,6 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 hit_anim = true;
                 other_player.hit_anim = true;
-
-                
                 player_center.focus.transform.position = player_center.focus.transform.position + Vector3.Scale(player_center.focus.transform.right, new Vector3(distance_hit_back, distance_hit_back, distance_hit_back));
                 
             }
@@ -98,6 +96,10 @@ public class PlayerBehaviour : MonoBehaviour
             preparation_counter = 0f;
             attack_counter = 0f;
             attacking = false;
+            //reset to different integers
+            other_player.last_attack_direction = -1;
+            last_attack_direction = -2;
+
             return;
         }
 
@@ -156,6 +158,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             return;
         }
+        //else defends
         if (other_player.attacking 
             && other_player.preparation_counter < other_player.preparation_time 
             && direction != -1)
@@ -163,6 +166,5 @@ public class PlayerBehaviour : MonoBehaviour
             my_sword.MoveBlockSword(direction);
             last_attack_direction = direction;
         }
-        //else defends
     }
 }
