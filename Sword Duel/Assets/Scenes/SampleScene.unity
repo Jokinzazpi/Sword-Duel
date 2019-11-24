@@ -326,6 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e37ab96de0a3a43b725c04223c9c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  my_weilder: {fileID: 0}
   upblock: {x: -0.4, y: 1.27, z: 0}
   downblock: {x: -0.4, y: 0, z: 0}
   leftblock: {x: -0.4, y: 0.65, z: -0.67}
@@ -632,7 +633,7 @@ GameObject:
   - component: {fileID: 1347024381}
   - component: {fileID: 1347024384}
   m_Layer: 0
-  m_Name: Sword2
+  m_Name: Sword1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -722,6 +723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e37ab96de0a3a43b725c04223c9c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  my_weilder: {fileID: 0}
   upblock: {x: 0.45, y: 1.27, z: 0}
   downblock: {x: 0.45, y: 0, z: 0}
   leftblock: {x: 0.45, y: 0.65, z: -0.67}
