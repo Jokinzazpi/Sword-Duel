@@ -31,46 +31,46 @@ public class SwordMovement : MonoBehaviour
         {
             if (direction == 0)
             {
-                transform.position = upblock + new Vector3(0,0.1f,0);
-                transform.rotation = upattackrot;
+                transform.localPosition = upblock + new Vector3(0,0.1f,0);
+                transform.localRotation = upattackrot;
                 Debug.Log("Upattack");
             }
             else if (direction == 1)
             {
-                transform.position = downblock + new Vector3(0, -0.1f, 0);
-                transform.rotation = downattackrot;
+                transform.localPosition = downblock + new Vector3(0, -0.1f, 0);
+                transform.localRotation = downattackrot;
             }
             else if (direction == 3)
             {
-                transform.position = leftblock + new Vector3(-0.1f, 0, 0);
-                transform.rotation = leftattackrot;
+                transform.localPosition = leftblock + new Vector3(-0.1f, 0, 0);
+                transform.localRotation = leftattackrot;
             }
             else if (direction == 4)
             {
-                transform.position = rightblock + new Vector3(0.1f,0, 0);
-                transform.rotation = rightattackrot;
+                transform.localPosition = rightblock + new Vector3(0.1f,0, 0);
+                transform.localRotation = rightattackrot;
             }
         }
    
         if (direction == 0)
         {
-            transform.position = upblock;
-            transform.rotation = upattackrot;
+            transform.localPosition = upblock;
+            transform.localRotation = upattackrot;
         }
         else if (direction == 1)
         {
-            transform.position = downblock;
-            transform.rotation = downattackrot;
+            transform.localPosition = downblock;
+            transform.localRotation = downattackrot;
         }
         else if (direction == 3)
         {
-            transform.position = leftblock;
-            transform.rotation = leftattackrot;
+            transform.localPosition = leftblock;
+            transform.localRotation = leftattackrot;
         }
         else if (direction == 4)
         {
-            transform.position = rightblock;
-            transform.rotation = rightattackrot;
+            transform.localPosition = rightblock;
+            transform.localRotation = rightattackrot;
         }
     }
 
@@ -78,24 +78,24 @@ public class SwordMovement : MonoBehaviour
     {
         if(direction == 0)
         {
-            transform.position = upblock;
-            transform.rotation = upblockrot;
+            transform.localPosition = upblock;
+            transform.localRotation = upblockrot;
             Debug.Log("Upblock");
         }
         else if (direction == 1)
         {
-            transform.position = downblock;
-            transform.rotation = upblockrot;
+            transform.localPosition = downblock;
+            transform.localRotation = upblockrot;
         }
         else if (direction == 3)
         {
-            transform.position = leftblock;
-            transform.rotation = leftblockrot;
+            transform.localPosition = leftblock;
+            transform.localRotation = leftblockrot;
         }
         else if (direction == 4)
         {
-            transform.position = rightblock;
-            transform.rotation = leftblockrot;
+            transform.localPosition = rightblock;
+            transform.localRotation = leftblockrot;
         }
     }
     // Update is called once per frame

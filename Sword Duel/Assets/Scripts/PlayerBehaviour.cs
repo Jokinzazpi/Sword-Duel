@@ -28,10 +28,12 @@ public class PlayerBehaviour : MonoBehaviour
     public Quaternion original_rot;
     SwordMovement my_sword;
     PlayerBehaviour other_player;
+    camera_movement player_center;
 
     int last_attack_direction = 0;
     void Start()
-    {       
+    {
+        player_center = GameObject.Find("Main Camera").GetComponent<camera_movement>();
         if(player_number == 1)
         {
             other_player = GameObject.Find("Player2").GetComponent<PlayerBehaviour>();
@@ -75,11 +77,15 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 turn = !turn;
                 other_player.turn = !other_player.turn;
+                player_center.rotating = true;
             }
             else
             {
                 hit_anim = true;
                 other_player.hit_anim = true;
+
+                player_center.focus.transform.position = player_center.focus.transform.position + Vector3.Scale(player_center.focus.transform.right, new Vector3(distance_hit_back, distance_hit_back, distance_hit_back));
+                
             }
             attacking = false;
             return;
@@ -93,14 +99,9 @@ public class PlayerBehaviour : MonoBehaviour
                 return;
             }
 
-            if(turn)
-                transform.position = transform.position + Vector3.Scale(transform.right, new Vector3(distance_hit_back, distance_hit_back, distance_hit_back));
-            else
-                transform.position = transform.position - Vector3.Scale(transform.right, new Vector3(distance_hit_back, distance_hit_back, distance_hit_back));
-
             hit_anim = false;
-            my_sword.transform.position = original_pos;
-            my_sword.transform.rotation = original_rot;
+            my_sword.transform.localPosition = original_pos;
+            my_sword.transform.localRotation = original_rot;
             hit_counter = 0;
 
             return;
