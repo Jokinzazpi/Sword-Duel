@@ -50,18 +50,6 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    public void OnCollisionEnter(Collision collision)
-    {
-        //check hit by sword
-        if(collision.gameObject.tag == "Sword")
-        {
-            //if does step_back
-            currentpos = transform.position;
-            hit_anim = true;
-            collision.gameObject.GetComponent<PlayerBehaviour>().hit_anim = true;
-        }
-
-    }
     // Update is called once per frame
     void Update()
     {
@@ -83,6 +71,16 @@ public class PlayerBehaviour : MonoBehaviour
 
             preparation_counter = 0f;
             attack_counter = 0f;
+            if(other_player.last_attack_direction == last_attack_direction)
+            {
+                turn = !turn;
+                other_player.turn = !other_player.turn;
+            }
+            else
+            {
+                hit_anim = true;
+                other_player.hit_anim = true;
+            }
             attacking = false;
             return;
         }
@@ -96,13 +94,13 @@ public class PlayerBehaviour : MonoBehaviour
             }
 
             if(turn)
-                transform.position = transform.position + Vector3.Scale(transform.forward, new Vector3(distance_hit_back, distance_hit_back, distance_hit_back));
+                transform.position = transform.position + Vector3.Scale(transform.right, new Vector3(distance_hit_back, distance_hit_back, distance_hit_back));
             else
-                transform.position = transform.position - Vector3.Scale(transform.forward, new Vector3(distance_hit_back, distance_hit_back, distance_hit_back));
+                transform.position = transform.position - Vector3.Scale(transform.right, new Vector3(distance_hit_back, distance_hit_back, distance_hit_back));
 
             hit_anim = false;
-            transform.GetChild(0).transform.position = original_pos;
-            transform.GetChild(0).transform.rotation = original_rot;
+            my_sword.transform.position = original_pos;
+            my_sword.transform.rotation = original_rot;
             hit_counter = 0;
 
             return;
@@ -116,7 +114,9 @@ public class PlayerBehaviour : MonoBehaviour
             else if (Input.GetKeyDown("s"))
                 direction = 1;
             else if (Input.GetKeyDown("a"))
+            {
                 direction = 2;
+            }
             else if (Input.GetKeyDown("d"))
                 direction = 3;
         }
@@ -124,10 +124,12 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (Input.GetKeyDown("i"))
                 direction = 0;
-            else if (Input.GetKeyDown("j"))
-                direction = 1;
             else if (Input.GetKeyDown("k"))
+                direction = 1;
+            else if (Input.GetKeyDown("j"))
+            {
                 direction = 2;
+            }
             else if (Input.GetKeyDown("l"))
                 direction = 3;
         }
@@ -147,7 +149,10 @@ public class PlayerBehaviour : MonoBehaviour
         if (other_player.attacking 
             && other_player.preparation_counter < other_player.preparation_time 
             && direction != -1)
+        {
             my_sword.MoveBlockSword(direction);
+            last_attack_direction = direction;
+        }
         //else defends
     }
 }

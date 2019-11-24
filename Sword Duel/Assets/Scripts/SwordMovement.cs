@@ -25,16 +25,6 @@ public class SwordMovement : MonoBehaviour
     {
     }
 
-    public void OnCollisionEnter(Collision collision)
-    {
-        //check hit by sword
-        if (collision.gameObject.tag == "Sword")
-        {
-            my_weilder.turn = !my_weilder.turn;
-        }
-
-    }
-
     public void MoveAttackSword(int direction, bool prepare)
     {
         if(prepare)
