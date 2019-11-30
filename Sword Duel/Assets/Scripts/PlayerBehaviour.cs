@@ -52,6 +52,7 @@ public class PlayerBehaviour : MonoBehaviour
             original_pos = my_sword.transform.localPosition;
             original_rot = my_sword.transform.localRotation;
             my_sword.my_weilder = this;
+            current_delay = 0;
         }
         else if (player_number == 2)
         {
@@ -60,19 +61,13 @@ public class PlayerBehaviour : MonoBehaviour
             original_pos = my_sword.transform.localPosition;
             original_rot = my_sword.transform.localRotation;
             my_sword.my_weilder = this;
+            current_delay = 0;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        //if (AI)
-        //{
-        //    AI_update();
-        //    return;
-        //}
-
         if(attacking)
         {
             if (preparation_counter < preparation_time)
@@ -106,9 +101,7 @@ public class PlayerBehaviour : MonoBehaviour
             else
             {
                 hit_anim = true;
-                other_player.hit_anim = true;
-                player_center.focus.transform.position = player_center.focus.transform.position + Vector3.Scale(player_center.focus.transform.right, new Vector3(distance_hit_back, distance_hit_back, distance_hit_back));
-                
+                other_player.hit_anim = true;                
             }
 
             preparation_counter = 0f;
@@ -132,16 +125,16 @@ public class PlayerBehaviour : MonoBehaviour
                 if (!turn)
                   return;
 
-                float distance_step = value - distance_moved;
-            
+                float distance_step = Mathf.Abs(value) - Mathf.Abs(distance_moved);
+
                 Vector3 direction_v = new Vector3();
 
                 if (player_number == 2)
                 {
-                  direction_v.x = 1;
+                  direction_v.x = distance_step;
                 }
                 else
-                  direction_v.x = -1;
+                  direction_v.x = -distance_step;
 
                 player_center.focus.transform.position = player_center.focus.transform.position + direction_v;
                 distance_moved += distance_step;
@@ -179,12 +172,27 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (AI)
             {
-                if (current_delay < ai_delay)
+                if (current_delay > ai_delay)
                 {
-                  direction = Random.Range(0, 4);
+                    direction = Random.Range(0, 4);
                 }
                 else
-                    current_delay -= Time.deltaTime;
+                {
+                    //if its attacking
+                    if (turn)
+                        current_delay += Time.deltaTime * Random.Range(0.8f, 1f);
+
+                    //if its defending
+                    else
+                    {
+                        if (!other_player.attacking)
+                            current_delay = 0;
+                        else
+                        {
+                            current_delay += Time.deltaTime * (0.65f + Random.Range(0f, 0.15f));
+                        }       
+                    }
+                }
             }
             else
             {
@@ -210,7 +218,7 @@ public class PlayerBehaviour : MonoBehaviour
                 my_sword.MoveAttackSword(direction, true);
                 last_attack_direction = direction;
                 attacking = true;
-                current_delay = ai_delay;
+                current_delay = 0;
             }
 
             return;
@@ -222,142 +230,8 @@ public class PlayerBehaviour : MonoBehaviour
         {
             my_sword.MoveBlockSword(direction);
             last_attack_direction = direction;
-            current_delay = ai_delay;
+            current_delay = 0;
         }
         //else defends
-    }
-
-    void AI_update()
-    {
-        return;
-
-        if(attacking)
-        {
-            if (preparation_counter < preparation_time)
-            {
-                preparation_counter += Time.deltaTime;
-                return;
-            }
-
-            my_sword.MoveAttackSword(last_attack_direction, false);
-
-            if (attack_counter < attack_time)
-            {
-                attack_counter += Time.deltaTime;
-                return;
-            }
-
-            
-            //check if the direction was the same
-            //if it is is blocked so turn change
-            if(other_player.last_attack_direction == last_attack_direction)
-            {
-                turn = !turn;
-                other_player.turn = !other_player.turn;
-                player_center.rotating = true;
-                //reset the sword positions and rotation
-                my_sword.transform.localPosition = original_pos;
-                my_sword.transform.localRotation = original_rot;
-                other_player.my_sword.transform.localPosition = other_player.original_pos;
-                other_player.my_sword.transform.localRotation = other_player.original_rot;
-            }
-            else
-            {
-                hit_anim = true;
-                other_player.hit_anim = true;
-                player_center.focus.transform.position = player_center.focus.transform.position + Vector3.Scale(player_center.focus.transform.right, new Vector3(distance_hit_back, distance_hit_back, distance_hit_back));
-                
-            }
-
-            preparation_counter = 0f;
-            attack_counter = 0f;
-            attacking = false;
-            //reset to different integers
-            other_player.last_attack_direction = -1;
-            last_attack_direction = -2;
-
-            return;
-        }
-
-        if (hit_anim)
-        {
-            if (hit_counter < hit_time)
-            {
-                float value = Mathf.SmoothStep(0f, distance_hit_back, hit_counter / hit_time);
-                hit_counter += Time.deltaTime;
-
-                if (!turn)
-                  return;
-
-                float distance_step = value - distance_moved;
-            
-                Vector3 direction_v = new Vector3();
-
-                if (player_number == 2)
-                {
-                  direction_v.x = 1;
-                }
-                else
-                  direction_v.x = -1;
-
-                player_center.focus.transform.position = player_center.focus.transform.position + direction_v;
-                distance_moved += distance_step;
-
-                return;
-            }
-
-            hit_anim = false;
-            my_sword.transform.localPosition = original_pos;
-            my_sword.transform.localRotation = original_rot;
-            hit_counter = 0;
-            distance_moved = 0;
-            return;
-        }
-
-        int direction = -1;
-        if(player_number == 1)
-        {
-            if (Input.GetKeyDown("w"))
-                direction = 0;
-            else if (Input.GetKeyDown("s"))
-                direction = 1;
-            else if (Input.GetKeyDown("a"))
-            {
-                direction = 2;
-            }
-            else if (Input.GetKeyDown("d"))
-                direction = 3;
-        }
-        else if(player_number == 2)
-        {
-            if (current_delay < ai_delay)
-            {
-                direction = Random.Range(0, 4);
-            }
-            else
-                current_delay -= Time.deltaTime;
-        }
-
-        //if attacks
-        if(turn)
-        {
-            if(direction != -1)
-            {
-                my_sword.MoveAttackSword(direction, true);
-                last_attack_direction = direction;
-                attacking = true;
-                current_delay = ai_delay;
-            }
-
-            return;
-        }
-        if (other_player.attacking 
-            && other_player.preparation_counter < other_player.preparation_time 
-            && direction != -1)
-        {
-            my_sword.MoveBlockSword(direction);
-            last_attack_direction = direction;
-            //current_delay = ai_delay;
-        }
     }
 }
