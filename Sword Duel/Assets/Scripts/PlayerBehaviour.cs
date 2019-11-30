@@ -42,6 +42,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     float distance_moved = 0f;
 
+    public int vengeance_cumulative = 0;
+    float[] knock_back_pup = { 0f, 0.1f, 0.2f, 0.35f };
+    int[] turns = {0, 2, 3, 4 };
+    public int vengeance_turn = 0;
+
     void Start()
     {
         player_center = GameObject.Find("Main Camera").GetComponent<camera_movement>();
@@ -85,13 +90,18 @@ public class PlayerBehaviour : MonoBehaviour
             }
 
             
+            --vengeance_turn;
             //check if the direction was the same
             //if it is is blocked so turn change
             if(other_player.last_attack_direction == last_attack_direction)
             {
-                turn = !turn;
-                other_player.turn = !other_player.turn;
-                player_center.rotating = true;
+
+                if (vengeance_turn <= 0)
+                {
+                    turn = !turn;
+                    other_player.turn = !other_player.turn;
+                    player_center.rotating = true;
+                }
                 //reset the sword positions and rotation
                 my_sword.transform.localPosition = original_pos;
                 my_sword.transform.localRotation = original_rot;
@@ -110,8 +120,6 @@ public class PlayerBehaviour : MonoBehaviour
             //reset to different integers
             other_player.last_attack_direction = -1;
             last_attack_direction = -2;
-            last_attack_direction = -1;
-
             return;
         }
 
@@ -136,12 +144,20 @@ public class PlayerBehaviour : MonoBehaviour
                 else
                   direction_v.x = -distance_step;
 
-                player_center.focus.transform.position = player_center.focus.transform.position + direction_v;
+                player_center.focus.transform.position = player_center.focus.transform.position + direction_v + direction_v*knock_back_pup[vengeance_cumulative];
                 distance_moved += distance_step;
 
                 return;
             }
 
+        if(vengeance_turn <= 0)
+            vengeance_cumulative = 0;
+        
+
+        if (turn && vengeance_turn <= 0)
+                vengeance_turn = turns[vengeance_cumulative];
+
+            //reset values
             hit_anim = false;
             my_sword.transform.localPosition = original_pos;
             my_sword.transform.localRotation = original_rot;
@@ -166,8 +182,9 @@ public class PlayerBehaviour : MonoBehaviour
             else if (Input.GetKeyDown("d"))
                 direction = 3;
 
-            if(direction != -1)
-            Debug.Log(direction);
+            //Vengeance??
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+                direction = 4;
         }
         else if(player_number == 2)
         {
@@ -208,13 +225,18 @@ public class PlayerBehaviour : MonoBehaviour
                 }
                 else if (Input.GetKeyDown("l"))
                     direction = 3;
+
+                //Vengeance??
+
+                if (Input.GetKeyDown(KeyCode.RightShift))
+                    direction = 4;
             }
         }
 
         //if attacks
         if(turn)
         {
-            if(direction != -1)
+            if(direction != -1 && direction != 4)
             {
                 my_sword.MoveAttackSword(direction, true);
                 last_attack_direction = direction;
@@ -224,14 +246,23 @@ public class PlayerBehaviour : MonoBehaviour
 
             return;
         }
+
+
         if (other_player.attacking 
             && other_player.preparation_counter < other_player.preparation_time 
             && direction != -1
-            && last_attack_direction == -1)
+            && last_attack_direction <= -1)
         {
             my_sword.MoveBlockSword(direction);
             last_attack_direction = direction;
             current_delay = 0;
+
+            if (direction == 4)
+            {
+                if(vengeance_cumulative < 3)
+                    vengeance_cumulative += 1;
+                vengeance_turn = turns[vengeance_cumulative];
+            }
         }
         //else defends
     }
