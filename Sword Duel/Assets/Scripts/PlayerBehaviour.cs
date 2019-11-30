@@ -30,7 +30,7 @@ public class PlayerBehaviour : MonoBehaviour
     PlayerBehaviour other_player;
     camera_movement player_center;
 
-    int last_attack_direction = 0;
+    int last_attack_direction = -1;
 
     //JokinVars
     float distance_moved = 0f;
@@ -138,6 +138,7 @@ public class PlayerBehaviour : MonoBehaviour
             my_sword.transform.localRotation = original_rot;
             hit_counter = 0;
             distance_moved = 0;
+            last_attack_direction = -1;
             return;
         }
 
