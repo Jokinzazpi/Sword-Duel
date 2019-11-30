@@ -35,7 +35,7 @@ public class PlayerBehaviour : MonoBehaviour
     camera_movement player_center;
 
     int last_attack_direction = -1;
-
+    public GameObject vengeance_aura;
 
     float ai_delay = 0.25f;
     float current_delay = 0f;
@@ -73,7 +73,9 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(attacking)
+        vengeance_aura.transform.localScale = new Vector3(0.35f*vengeance_turn, 0.2f*vengeance_turn, 0);
+
+        if (attacking)
         {
             if (preparation_counter < preparation_time)
             {
@@ -89,14 +91,14 @@ public class PlayerBehaviour : MonoBehaviour
                 return;
             }
 
-            
-            --vengeance_turn;
+            if(vengeance_turn > 0)
+                --vengeance_turn;
             //check if the direction was the same
             //if it is is blocked so turn change
             if(other_player.last_attack_direction == last_attack_direction)
             {
 
-                if (vengeance_turn <= 0)
+                if (vengeance_turn == 0)
                 {
                     turn = !turn;
                     other_player.turn = !other_player.turn;
@@ -150,11 +152,11 @@ public class PlayerBehaviour : MonoBehaviour
                 return;
             }
 
-        if(vengeance_turn <= 0)
+        if(vengeance_turn == 0)
             vengeance_cumulative = 0;
         
 
-        if (turn && vengeance_turn <= 0)
+        if (turn && vengeance_turn == 0)
                 vengeance_turn = turns[vengeance_cumulative];
 
             //reset values
