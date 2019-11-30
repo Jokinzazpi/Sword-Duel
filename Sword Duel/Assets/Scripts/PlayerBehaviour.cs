@@ -148,6 +148,7 @@ public class PlayerBehaviour : MonoBehaviour
             hit_counter = 0;
             distance_moved = 0;
             current_delay = ai_delay;
+            last_attack_direction = -1;
             return;
         }
 

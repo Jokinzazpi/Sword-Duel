@@ -21,37 +21,47 @@ public class SwordMovement : MonoBehaviour
     public Vector3 leftattackrot = new Vector3(30, 0, 90);
     public Vector3 downattackrot = new Vector3(0, 90, -30);
     public Vector3 rightattackrot = new Vector3(-30, 0, 90);
+
     void Start()
     {
     }
 
     public void MoveAttackSword(int direction, bool prepare)
     {
-        if(prepare)
+
+        var materialrend = GetComponent<Renderer>();
+        if (prepare)
         {
             if (direction == 0)
             {
-                transform.localPosition = upblock + new Vector3(0,0.1f,0);
+                transform.localPosition = upblock + new Vector3(0,0.2f,0);
                 transform.localRotation = Quaternion.Euler(upattackrot);
-                Debug.Log("Upattack");
+                materialrend.material.SetColor("_Color", Color.green);
             }
             else if (direction == 1)
             {
-                transform.localPosition = downblock + new Vector3(0, -0.1f, 0);
+                transform.localPosition = downblock + new Vector3(0, -0.2f, 0);
                 transform.localRotation = Quaternion.Euler(downattackrot);
+                materialrend.material.SetColor("_Color", Color.cyan);
+            }
+            else if (direction == 2)
+            {
+                transform.localPosition = rightblock + Vector3.Scale(new Vector3(0.6f, 0.6f, 0.6f),transform.forward);
+                transform.localRotation = Quaternion.Euler(leftattackrot);
+                materialrend.material.SetColor("_Color", Color.magenta);
+
             }
             else if (direction == 3)
             {
-                transform.localPosition = leftblock + new Vector3(-0.1f, 0, 0);
-                transform.localRotation = Quaternion.Euler(leftattackrot);
-            }
-            else if (direction == 4)
-            {
-                transform.localPosition = rightblock + new Vector3(0.1f,0, 0);
+                transform.localPosition = leftblock + Vector3.Scale(new Vector3(-0.6f,-0.6f, -0.6f), transform.forward);
                 transform.localRotation = Quaternion.Euler(rightattackrot);
+                materialrend.material.SetColor("_Color", Color.yellow);
             }
+            return;
         }
-   
+
+        materialrend.material.SetColor("_Color", Color.white);
+
         if (direction == 0)
         {
             transform.localPosition = upblock;
@@ -62,14 +72,14 @@ public class SwordMovement : MonoBehaviour
             transform.localPosition = downblock;
             transform.localRotation = Quaternion.Euler(downattackrot);
         }
+        else if (direction == 2)
+        {
+            transform.localPosition = rightblock;
+            transform.localRotation = Quaternion.Euler(leftattackrot);
+        }
         else if (direction == 3)
         {
             transform.localPosition = leftblock;
-            transform.localRotation = Quaternion.Euler(leftattackrot);
-        }
-        else if (direction == 4)
-        {
-            transform.localPosition = rightblock;
             transform.localRotation = Quaternion.Euler(rightattackrot);
         }
     }
@@ -80,19 +90,18 @@ public class SwordMovement : MonoBehaviour
         {
             transform.localPosition = upblock;
             transform.localRotation = Quaternion.Euler(upblockrot);
-            Debug.Log("Upblock");
         }
         else if (direction == 1)
         {
             transform.localPosition = downblock;
             transform.localRotation = Quaternion.Euler(upblockrot);
         }
-        else if (direction == 3)
+        else if (direction == 2)
         {
             transform.localPosition = leftblock;
             transform.localRotation = Quaternion.Euler(leftblockrot);
         }
-        else if (direction == 4)
+        else if (direction == 3)
         {
             transform.localPosition = rightblock;
             transform.localRotation = Quaternion.Euler(leftblockrot);
