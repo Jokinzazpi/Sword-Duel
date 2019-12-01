@@ -206,7 +206,18 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (AI)
             {
-                if (current_delay > ai_delay)
+                bool enter_dir = false;
+                if (turn)
+                {
+                  if (current_delay > 1.25f)
+                    enter_dir = true;
+                }
+                else
+                {
+                  if (current_delay > ai_delay)
+                    enter_dir = true;
+                }
+                if (enter_dir)
                 {
                     if (turn)
                         direction = Random.Range(0, 4);
