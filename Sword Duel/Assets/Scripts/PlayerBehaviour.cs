@@ -194,7 +194,19 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 if (current_delay > ai_delay)
                 {
-                    direction = Random.Range(0, 4);
+                    if (turn)
+                        direction = Random.Range(0, 4);
+
+                    else
+                    {
+                        if (Random.Range(0, 100) % 2 == 0)
+                        {
+                            direction = other_player.last_attack_direction;
+                        }
+                        else
+                            direction = Random.Range(0, 4);
+                    }
+                    current_delay = 0;
                 }
                 else
                 {
