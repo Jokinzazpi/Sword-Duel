@@ -364,7 +364,7 @@ MonoBehaviour:
   turn: 0
   player_number: 1
   distance_hit_back: 5
-  hit_time: 0.1
+  hit_time: 0.3
   AI: 0
   tutorial_mode: 0
   attacking: 0
@@ -1939,8 +1939,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initial_timescale: 0.5
-  max_timescale: 2
-  timescale_rate: 0.1
+  max_timescale: 1.4
+  timescale_rate: 0.05
   scene_name: AI_level
 --- !u!1 &766302664
 GameObject:
@@ -2520,8 +2520,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initial_timescale: 1
-  max_timescale: 4
-  timescale_rate: 0.25
+  max_timescale: 3
+  timescale_rate: 0.15
   scene_name: AI_level
 --- !u!1 &1015819315
 GameObject:
@@ -3805,7 +3805,7 @@ MonoBehaviour:
   turn: 1
   player_number: 2
   distance_hit_back: 5
-  hit_time: 0.1
+  hit_time: 0.3
   AI: 0
   tutorial_mode: 0
   attacking: 0
