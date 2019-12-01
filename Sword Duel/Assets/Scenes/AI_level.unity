@@ -581,7 +581,7 @@ MonoBehaviour:
   turn: 0
   player_number: 1
   distance_hit_back: 5
-  hit_time: 0.1
+  hit_time: 1
   AI: 0
   tutorial_mode: 0
   attacking: 0
@@ -1785,7 +1785,7 @@ MonoBehaviour:
   turn: 1
   player_number: 2
   distance_hit_back: 5
-  hit_time: 0.1
+  hit_time: 1
   AI: 1
   tutorial_mode: 0
   attacking: 0

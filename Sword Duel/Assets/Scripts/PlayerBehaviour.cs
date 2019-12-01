@@ -81,7 +81,10 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (player_center.menu_mode)
+            return;
         vengeance_aura.transform.localScale = new Vector3(0.35f*vengeance_turn, 0.2f*vengeance_turn, 0);
+
 
         if (attacking)
         {
@@ -210,7 +213,7 @@ public class PlayerBehaviour : MonoBehaviour
 
                     else
                     {
-                        if (Random.Range(0, 100) % 2 == 0)
+                        if (Random.Range(0, 100) % 5 == 0)
                         {
                             direction = other_player.last_attack_direction;
                         }
