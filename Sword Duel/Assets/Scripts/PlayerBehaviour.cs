@@ -35,13 +35,21 @@ public class PlayerBehaviour : MonoBehaviour
     camera_movement player_center;
 
     int last_attack_direction = -1;
-
+    public GameObject vengeance_aura;
 
     float ai_delay = 0.25f;
     float current_delay = 0f;
 
     float distance_moved = 0f;
 
+    public int vengeance_cumulative = 0;
+    float[] knock_back_pup = { 0f, 0.25f, 0.4f, 0.55f };
+    int[] turns = {0, 2, 3, 4 };
+    public int vengeance_turn = 0;
+
+    static float initial_timescale = 0.5f;
+    static float max_timescale = 2;
+    static float timescale_rate = 0.1f;
     void Start()
     {
         player_center = GameObject.Find("Main Camera").GetComponent<camera_movement>();
@@ -63,12 +71,19 @@ public class PlayerBehaviour : MonoBehaviour
             my_sword.my_weilder = this;
             current_delay = 0;
         }
+
+        initial_timescale = PlayerPrefs.GetFloat("Initial_timescale");
+        max_timescale = PlayerPrefs.GetFloat("Max_timescale");
+        timescale_rate = PlayerPrefs.GetFloat("TimeScale_rate");
+        Time.timeScale = initial_timescale;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(attacking)
+        vengeance_aura.transform.localScale = new Vector3(0.35f*vengeance_turn, 0.2f*vengeance_turn, 0);
+
+        if (attacking)
         {
             if (preparation_counter < preparation_time)
             {
@@ -84,14 +99,22 @@ public class PlayerBehaviour : MonoBehaviour
                 return;
             }
 
-            
+            if(vengeance_turn > 0)
+                --vengeance_turn;
             //check if the direction was the same
             //if it is is blocked so turn change
             if(other_player.last_attack_direction == last_attack_direction)
             {
-                turn = !turn;
-                other_player.turn = !other_player.turn;
-                player_center.rotating = true;
+
+                if (vengeance_turn == 0)
+                {
+                    turn = !turn;
+                    other_player.turn = !other_player.turn;
+                    player_center.rotating = true;
+                }
+
+                if(Time.timeScale < max_timescale)
+                    Time.timeScale += timescale_rate;
                 //reset the sword positions and rotation
                 my_sword.transform.localPosition = original_pos;
                 my_sword.transform.localRotation = original_rot;
@@ -110,8 +133,6 @@ public class PlayerBehaviour : MonoBehaviour
             //reset to different integers
             other_player.last_attack_direction = -1;
             last_attack_direction = -2;
-            last_attack_direction = -1;
-
             return;
         }
 
@@ -136,12 +157,20 @@ public class PlayerBehaviour : MonoBehaviour
                 else
                   direction_v.x = -distance_step;
 
-                player_center.focus.transform.position = player_center.focus.transform.position + direction_v;
+                player_center.focus.transform.position = player_center.focus.transform.position + direction_v + direction_v*knock_back_pup[vengeance_cumulative];
                 distance_moved += distance_step;
 
                 return;
             }
 
+        if(vengeance_turn == 0)
+            vengeance_cumulative = 0;
+        
+
+        if (turn && vengeance_turn == 0)
+                vengeance_turn = turns[vengeance_cumulative];
+
+            //reset values
             hit_anim = false;
             my_sword.transform.localPosition = original_pos;
             my_sword.transform.localRotation = original_rot;
@@ -165,6 +194,10 @@ public class PlayerBehaviour : MonoBehaviour
             }
             else if (Input.GetKeyDown("d"))
                 direction = 3;
+
+            //Vengeance??
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+                direction = 4;
         }
         else if(player_number == 2)
         {
@@ -217,13 +250,18 @@ public class PlayerBehaviour : MonoBehaviour
                 }
                 else if (Input.GetKeyDown("l"))
                     direction = 3;
+
+                //Vengeance??
+
+                if (Input.GetKeyDown(KeyCode.RightShift))
+                    direction = 4;
             }
         }
 
         //if attacks
         if(turn)
         {
-            if(direction != -1)
+            if(direction != -1 && direction != 4)
             {
                 my_sword.MoveAttackSword(direction, true);
                 last_attack_direction = direction;
@@ -233,14 +271,23 @@ public class PlayerBehaviour : MonoBehaviour
 
             return;
         }
+
+
         if (other_player.attacking 
             && other_player.preparation_counter < other_player.preparation_time 
             && direction != -1
-            && last_attack_direction == -1)
+            && last_attack_direction <= -1)
         {
             my_sword.MoveBlockSword(direction);
             last_attack_direction = direction;
             current_delay = 0;
+
+            if (direction == 4)
+            {
+                if(vengeance_cumulative < 3)
+                    vengeance_cumulative += 1;
+                vengeance_turn = turns[vengeance_cumulative];
+            }
         }
         //else defends
     }
