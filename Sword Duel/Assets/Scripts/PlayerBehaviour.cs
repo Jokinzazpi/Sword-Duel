@@ -47,6 +47,9 @@ public class PlayerBehaviour : MonoBehaviour
     int[] turns = {0, 2, 3, 4 };
     public int vengeance_turn = 0;
 
+    static float initial_timescale = 0.5f;
+    static float max_timescale = 2;
+    static float timescale_rate = 0.1f;
     void Start()
     {
         player_center = GameObject.Find("Main Camera").GetComponent<camera_movement>();
@@ -68,6 +71,11 @@ public class PlayerBehaviour : MonoBehaviour
             my_sword.my_weilder = this;
             current_delay = 0;
         }
+
+        initial_timescale = PlayerPrefs.GetFloat("Initial_timescale");
+        max_timescale = PlayerPrefs.GetFloat("Max_timescale");
+        timescale_rate = PlayerPrefs.GetFloat("TimeScale_rate");
+        Time.timeScale = initial_timescale;
     }
 
     // Update is called once per frame
@@ -104,7 +112,9 @@ public class PlayerBehaviour : MonoBehaviour
                     other_player.turn = !other_player.turn;
                     player_center.rotating = true;
                 }
-                Time.timeScale += 0.2f;
+
+                if(Time.timeScale < max_timescale)
+                    Time.timeScale += timescale_rate;
                 //reset the sword positions and rotation
                 my_sword.transform.localPosition = original_pos;
                 my_sword.transform.localRotation = original_rot;
