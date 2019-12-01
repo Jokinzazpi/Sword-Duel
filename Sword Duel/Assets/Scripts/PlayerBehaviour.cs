@@ -43,7 +43,7 @@ public class PlayerBehaviour : MonoBehaviour
     float distance_moved = 0f;
 
     public int vengeance_cumulative = 0;
-    float[] knock_back_pup = { 0f, 0.1f, 0.2f, 0.35f };
+    float[] knock_back_pup = { 0f, 0.25f, 0.4f, 0.55f };
     int[] turns = {0, 2, 3, 4 };
     public int vengeance_turn = 0;
 
@@ -104,6 +104,7 @@ public class PlayerBehaviour : MonoBehaviour
                     other_player.turn = !other_player.turn;
                     player_center.rotating = true;
                 }
+                Time.timeScale += 0.2f;
                 //reset the sword positions and rotation
                 my_sword.transform.localPosition = original_pos;
                 my_sword.transform.localRotation = original_rot;
